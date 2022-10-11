@@ -1,0 +1,7 @@
+# Set these values in CI/CD configuration to connect to an embedded H2 database and run example
+
+logLevel: info
+changeLogFile: samplechangelog.sql
+url: jdbc:sqlserver://parteyserver.database.windows.net:1433;database=parteyDB;user=manish@parteyserver;password=InfoInfo@2022;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+username: manish
+password: InfoInfo@2022
