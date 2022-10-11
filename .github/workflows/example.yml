@@ -9,8 +9,8 @@ jobs:
       - uses: liquibase/liquibase-github-action@v2
         with:
           operation: 'update'
-          classpath: '.github/workspace/dbscript'
-          changeLogFile: 'samplechangelog.sql'
+          classpath: 'example/changelogs'
+          changeLogFile: 'samplechangelog.h2.sql'
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           url: ${{ secrets.URL }}
