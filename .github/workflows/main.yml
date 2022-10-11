@@ -1,4 +1,4 @@
-on: [pull]
+on: [push]
 
 jobs:
   test-liquibase-action:
@@ -10,7 +10,7 @@ jobs:
         with:
           operation: 'update'
           classpath: 'DBScript'
-          changeLogFile: 'samplechangelog.h2.sql'
+          changeLogFile: 'samplechangelog.sql'
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           url: ${{ secrets.URL }}
