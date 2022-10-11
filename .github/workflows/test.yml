@@ -1,0 +1,13 @@
+on: [push]
+
+name: AzureLoginSample1
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Printing KeyVault Secrets
+      run: |
+          echo ${project.basedir}
+    
