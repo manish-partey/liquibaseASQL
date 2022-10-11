@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<liquibase.propertyFile>${project.basedir}/src/main/resources/local.liquibase.properties</liquibase.propertyFile>
+		<liquibase.propertyFile>${GITHUB_WORKSPACE}/local.liquibase.properties</liquibase.propertyFile>
 		<!-- <liquibase.liquibaseProLicenseKey></liquibase.liquibaseProLicenseKey> -->
 	  </properties>
 
