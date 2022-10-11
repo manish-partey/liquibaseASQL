@@ -2,6 +2,7 @@
 
 logLevel: DEBUG
 changeLogFile: samplechangelog.sql
-url: jdbc:sqlserver://parteyserver.database.windows.net:1433;databaseName=parteyDB;integratedSecurity=true;driver=com.microsoft.sqlserver;
+url: jdbc:sqlserver://parteyserver.database.windows.net:1433;databaseName=parteyDB;integratedSecurity=true;
+driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
 username: manish
 password: InfoInfo@2022
