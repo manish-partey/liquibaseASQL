@@ -8,9 +8,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: liquibase/liquibase-github-action@v2
         with:
-          operation: 'update'
-          classpath: './'
-          changeLogFile: 'samplechangelog.h2.sql'
+          operation: 'update'          
+          changeLogFile: 'changeLog.xml'
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           url: ${{ secrets.URL }}
