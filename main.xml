@@ -1,0 +1,27 @@
+<project basedir="." default="TestAnt" name="Sample-LiquiBase" xmlns:liquibase="antlib:liquibase.integration.ant">
+   <property environment="env" />
+   <path id="driver.mssql">
+	  <pathelement location="/root/liquibase-jars/mssql-jdbc-8.2.0.jre11.jar" />
+   </path>
+   <path id="driver.mysql">
+	  <pathelement location="/root/liquibase-jars/mysql-connector-java-5.1.48.jar" />
+   </path>
+   <target name="TestAnt">
+      <echo message="Hello ANT" />
+   </target>
+   
+	<target name="mssql">
+	<echo message="Hello Liquibase"></echo>	
+	<liquibase:updateDatabase classpathref="driver.mssql" changelogfile="changeLog.xml" outputFile="incremental-script.sql">
+	   <liquibase:database id="my-database" driver="com.microsoft.sqlserver.jdbc.SQLServerDriver" url="jdbc:sqlserver://parteyserver.database.windows.net:1433;database=parteyDB;integratedSecurity=false;" user="manish" password="InfoInfo@2022" />
+        </liquibase:updateDatabase>
+	<liquibase:updateDatabase classpathref="driver.mssql" changelogfile="changeLog.xml">
+	   <liquibase:database id="my-database" driver="com.microsoft.sqlserver.jdbc.SQLServerDriver" url="jdbc:sqlserver://parteyserver.database.windows.net:1433;database=parteyDB;integratedSecurity=false;" user="manish" password="InfoInfo@2022" />
+        </liquibase:updateDatabase>
+	</target>
+	
+	
+	
+</project>
+
+
