@@ -9,10 +9,10 @@ Version: 1.0
 */
 -- create schemas
 CREATE SCHEMA production;
-go
+
 
 CREATE SCHEMA sales;
-go
+
 
 -- create tables
 CREATE TABLE production.categories (
