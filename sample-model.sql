@@ -93,6 +93,9 @@ CREATE TABLE stocks (
 	FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+PRINT 'Creating Player View'
+GO
+
 CREATE OR ALTER VIEW Product_In_Store AS
 SELECT P.product_name, P.list_price, B.brand_name
 FROM products P
