@@ -95,7 +95,7 @@ CREATE TABLE stocks (
 
 DROP VIEW IF EXISTS Product_In_Store;
 GO
-
+PRINT 'TEST'
 GO
 CREATE OR ALTER VIEW Product_In_Store 
 AS 
