@@ -95,6 +95,8 @@ CREATE TABLE stocks (
 
 DROP VIEW IF EXISTS Product_In_Store;
 GO
+
+GO
 CREATE OR ALTER VIEW Product_In_Store 
 AS 
 SELECT P.product_name, P.list_price, B.brand_name
