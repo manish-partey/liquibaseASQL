@@ -96,7 +96,8 @@ CREATE TABLE stocks (
 PRINT 'Creating Player View'
 GO
 
-CREATE OR ALTER VIEW Product_In_Store AS
+CREATE OR ALTER VIEW Product_In_Store 
+AS 
 SELECT P.product_name, P.list_price, B.brand_name
 FROM products P
 INNER JOIN brands B ON P.brand_ID = B.brand_ID;
