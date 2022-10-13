@@ -1,164 +1,101 @@
 ﻿
+-- create tables
+CREATE TABLE categories (
+	category_id INT IDENTITY (1, 1) PRIMARY KEY,
+	category_name VARCHAR (255) NOT NULL
+);
 
-/*==============================================================*/
-/* Table: Customer                                              */
-/*==============================================================*/
-create table Customer (
-   Id                   int                  identity,
-   FirstName            nvarchar(40)         not null,
-   LastName             nvarchar(40)         not null,
-   City                 nvarchar(40)         null,
-   Country              nvarchar(40)         null,
-   Phone                nvarchar(20)         null,
-   constraint PK_CUSTOMER primary key (Id)
-)
-go
+CREATE TABLE brands (
+	brand_id INT IDENTITY (1, 1) PRIMARY KEY,
+	brand_name VARCHAR (255) NOT NULL
+);
 
-/*==============================================================*/
-/* Index: IndexCustomerName                                     */
-/*==============================================================*/
-create index IndexCustomerName on Customer (
-LastName ASC,
-FirstName ASC
-)
-go
+CREATE TABLE products (
+	product_id INT IDENTITY (1, 1) PRIMARY KEY,
+	product_name VARCHAR (255) NOT NULL,
+	brand_id INT NOT NULL,
+	category_id INT NOT NULL,
+	model_year SMALLINT NOT NULL,
+	list_price DECIMAL (10, 2) NOT NULL,
+	FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (brand_id) REFERENCES brands (brand_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-/*==============================================================*/
-/* Table: "Order"                                               */
-/*==============================================================*/
-create table "Order" (
-   Id                   int                  identity,
-   OrderDate            datetime             not null default getdate(),
-   OrderNumber          nvarchar(10)         null,
-   CustomerId           int                  not null,
-   TotalAmount          decimal(12,2)        null default 0,
-   constraint PK_ORDER primary key (Id)
-)
-go
+CREATE TABLE customers (
+	customer_id INT IDENTITY (1, 1) PRIMARY KEY,
+	first_name VARCHAR (255) NOT NULL,
+	last_name VARCHAR (255) NOT NULL,
+	phone VARCHAR (25),
+	email VARCHAR (255) NOT NULL,
+	street VARCHAR (255),
+	city VARCHAR (50),
+	state VARCHAR (25),
+	zip_code VARCHAR (5)
+);
 
-/*==============================================================*/
-/* Index: IndexOrderCustomerId                                  */
-/*==============================================================*/
-create index IndexOrderCustomerId on "Order" (
-CustomerId ASC
-)
-go
+CREATE TABLE stores (
+	store_id INT IDENTITY (1, 1) PRIMARY KEY,
+	store_name VARCHAR (255) NOT NULL,
+	phone VARCHAR (25),
+	email VARCHAR (255),
+	street VARCHAR (255),
+	city VARCHAR (255),
+	state VARCHAR (10),
+	zip_code VARCHAR (5)
+);
 
-/*==============================================================*/
-/* Index: IndexOrderOrderDate                                   */
-/*==============================================================*/
-create index IndexOrderOrderDate on "Order" (
-OrderDate ASC
-)
-go
+CREATE TABLE staffs (
+	staff_id INT IDENTITY (1, 1) PRIMARY KEY,
+	first_name VARCHAR (50) NOT NULL,
+	last_name VARCHAR (50) NOT NULL,
+	email VARCHAR (255) NOT NULL UNIQUE,
+	phone VARCHAR (25),
+	active tinyint NOT NULL,
+	store_id INT NOT NULL,
+	manager_id INT,
+	FOREIGN KEY (store_id) REFERENCES stores (store_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (manager_id) REFERENCES staffs (staff_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
 
-/*==============================================================*/
-/* Table: OrderItem                                             */
-/*==============================================================*/
-create table OrderItem (
-   Id                   int                  identity,
-   OrderId              int                  not null,
-   ProductId            int                  not null,
-   UnitPrice            decimal(12,2)        not null default 0,
-   Quantity             int                  not null default 1,
-   constraint PK_ORDERITEM primary key (Id)
-)
-go
+CREATE TABLE orders (
+	order_id INT IDENTITY (1, 1) PRIMARY KEY,
+	customer_id INT,
+	order_status tinyint NOT NULL,
+	-- Order status: 1 = Pending; 2 = Processing; 3 = Rejected; 4 = Completed
+	order_date DATE NOT NULL,
+	required_date DATE NOT NULL,
+	shipped_date DATE,
+	store_id INT NOT NULL,
+	staff_id INT NOT NULL,
+	FOREIGN KEY (customer_id) REFERENCES customers (customer_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (store_id) REFERENCES stores (store_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (staff_id) REFERENCES staffs (staff_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+);
 
-/*==============================================================*/
-/* Index: IndexOrderItemOrderId                                 */
-/*==============================================================*/
-create index IndexOrderItemOrderId on OrderItem (
-OrderId ASC
-)
-go
+CREATE TABLE order_items (
+	order_id INT,
+	item_id INT,
+	product_id INT NOT NULL,
+	quantity INT NOT NULL,
+	list_price DECIMAL (10, 2) NOT NULL,
+	discount DECIMAL (4, 2) NOT NULL DEFAULT 0,
+	PRIMARY KEY (order_id, item_id),
+	FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-/*==============================================================*/
-/* Index: IndexOrderItemProductId                               */
-/*==============================================================*/
-create index IndexOrderItemProductId on OrderItem (
-ProductId ASC
-)
-go
+CREATE TABLE stocks (
+	store_id INT,
+	product_id INT,
+	quantity INT,
+	PRIMARY KEY (store_id, product_id),
+	FOREIGN KEY (store_id) REFERENCES stores (store_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-/*==============================================================*/
-/* Table: Product                                               */
-/*==============================================================*/
-create table Product (
-   Id                   int                  identity,
-   ProductName          nvarchar(50)         not null,
-   SupplierId           int                  not null,
-   UnitPrice            decimal(12,2)        null default 0,
-   Package              nvarchar(30)         null,
-   IsDiscontinued       bit                  not null default 0,
-   constraint PK_PRODUCT primary key (Id)
-)
-go
+GO
 
-/*==============================================================*/
-/* Index: IndexProductSupplierId                                */
-/*==============================================================*/
-create index IndexProductSupplierId on Product (
-SupplierId ASC
-)
-go
-
-/*==============================================================*/
-/* Index: IndexProductName                                      */
-/*==============================================================*/
-create index IndexProductName on Product (
-ProductName ASC
-)
-go
-
-/*==============================================================*/
-/* Table: Supplier                                              */
-/*==============================================================*/
-create table Supplier (
-   Id                   int                  identity,
-   CompanyName          nvarchar(40)         not null,
-   ContactName          nvarchar(50)         null,
-   ContactTitle         nvarchar(40)         null,
-   City                 nvarchar(40)         null,
-   Country              nvarchar(40)         null,
-   Phone                nvarchar(30)         null,
-   Fax                  nvarchar(30)         null,
-   constraint PK_SUPPLIER primary key (Id)
-)
-go
-
-/*==============================================================*/
-/* Index: IndexSupplierName                                     */
-/*==============================================================*/
-create index IndexSupplierName on Supplier (
-CompanyName ASC
-)
-go
-
-/*==============================================================*/
-/* Index: IndexSupplierCountry                                  */
-/*==============================================================*/
-create index IndexSupplierCountry on Supplier (
-Country ASC
-)
-go
-
-alter table "Order"
-   add constraint FK_ORDER_REFERENCE_CUSTOMER foreign key (CustomerId)
-      references Customer (Id)
-go
-
-alter table OrderItem
-   add constraint FK_ORDERITE_REFERENCE_ORDER foreign key (OrderId)
-      references "Order" (Id)
-go
-
-alter table OrderItem
-   add constraint FK_ORDERITE_REFERENCE_PRODUCT foreign key (ProductId)
-      references Product (Id)
-go
-
-alter table Product
-   add constraint FK_PRODUCT_REFERENCE_SUPPLIER foreign key (SupplierId)
-      references Supplier (Id)
-go
+CREATE OR ALTER VIEW Product_In_Store AS
+SELECT P.product_name, P.list_price, B.brand_name
+FROM products P
+INNER JOIN brands B ON P.brand_ID = B.brand_ID
