@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: liquibase/liquibase-github-action@v7
         with:
-          operation: 'update'          
+          operation: 'update-sql'          
           classpath: './'
           changeLogFile: 'changeLog.xml'
           username: ${{ secrets.USERNAME }}
