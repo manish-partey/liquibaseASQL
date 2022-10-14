@@ -6,11 +6,11 @@ jobs:
     name: Test Liquibase Action
     steps:
       - uses: actions/checkout@v2
-      - uses: liquibase/liquibase-github-action@v2
+      - uses: liquibase/liquibase-github-action@v7
         with:
           operation: 'update'          
           classpath: './'
           changeLogFile: 'changeLog.xml'
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          url: 'jdbc:sqlserver://parteyserver.database.windows.net:1433;database=parteyDB;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;'
+          url: 'jdbc:sqlserver://parteyserver.database.windows.net:1433;database=parteyDB;user=saadmin@parteyserver;password=InfoInfo@2022;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;'
