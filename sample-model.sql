@@ -92,14 +92,3 @@ CREATE TABLE stocks (
 	FOREIGN KEY (store_id) REFERENCES stores (store_id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (product_id) REFERENCES products (product_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-DROP VIEW IF EXISTS Product_In_Store;
-GO
-PRINT 'TEST'
-GO
-CREATE OR ALTER VIEW Product_In_Store 
-AS 
-SELECT P.product_name, P.list_price, B.brand_name
-FROM products P
-INNER JOIN brands B ON P.brand_ID = B.brand_ID;
-GO
